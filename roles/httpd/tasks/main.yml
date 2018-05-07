@@ -3,16 +3,5 @@
 - name: install httpd
   yum: name=httpd state=latest
 
-- name: create sites directories
-  file: path={{item}} state=directory
-  with_items: "{{httpd_dirs}}"
-
-- name: copy an index.html
-  template: src=index.html.j2 dest={{httpd_docroot}}/index.html
-
-- name: copy httpd configuration
-  template: src=httpd.conf-{{ansible_os_family}}.j2 dest={{httpd_config}}
-  notify: restart httpd
-
 - name: start httpd service
   service: name=httpd state=started enabled=yes
